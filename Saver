@@ -1,0 +1,29 @@
+package bizkit245.gmail.com;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public interface Saver {
+    static void save(TextContainer tc) {
+        Class<TextContainer> cls = TextContainer.class;
+
+        if (!cls.isAnnotationPresent(SaveTo.class)) {
+            throw new IllegalArgumentException();
+        }
+
+        SaveTo pathAnnotation = cls.getAnnotation(SaveTo.class);
+        String path = pathAnnotation.path();
+
+        try {
+            Method[] methods = cls.getMethods();
+            for (Method method : methods) {
+                if (method.isAnnotationPresent(Save.class)) {
+                    method.invoke(tc, path);
+                    break;
+                }
+            }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+}
