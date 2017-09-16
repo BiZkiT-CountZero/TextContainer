@@ -1,0 +1,9 @@
+package bizkit245.gmail.com;
+
+public class Main {
+    public static void main(String[] args) {
+        TextContainer tc = new TextContainer("The truth is that there is no spoon");
+        Saver.save(tc);
+        System.out.println("Complete");
+    }
+}
